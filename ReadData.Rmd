@@ -1,0 +1,59 @@
+---
+title: "Read Data"
+author: "Colin Doherty"
+date: "2026-02-18"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+If not already installed, uncomment first line, install readxl, then re-comment
+Also, set your working directory to this source file.
+
+```{r}
+#install.packages(readxl)
+library(readxl)
+
+#Define a function to read things in the format of LACHS
+read_lachs <- function(path, r){
+  data <- read_excel(path, range=r,
+                     col_types = c("text", "skip", "numeric", "numeric", "skip" ,"numeric", "numeric"))
+  colnames(data)[-1] <- c("Percent", "Lower Bound", "Upper Bound", "Estimated #")
+  data
+}
+#save the path where are the tables are
+diffAcc_path <- "./data/LACHS2023_Adult_DiffAccCare.xlsx"
+
+#store the data.frames
+diffAcc_byGender <- read_lachs(diffAcc_path, "B9:H15")
+diffAcc_byOrient <- read_lachs(diffAcc_path, "B17:H20")
+diffAcc_byOrient2 <- read_lachs(diffAcc_path, "B22:H24")
+diffAcc_byAge <- read_lachs(diffAcc_path, "B26:H33")
+
+diffAcc_byRace <- read_lachs(diffAcc_path, "B35:H50")
+#raw data use colors to define subgroups. Just open xlsx file and you'll see what I mean
+#so I define this function to append the group name to the subgroup rows
+append_group <- function(data, column, group_index, subgroup_indicies){
+  data[[column]][subgroup_indicies] <- paste(data[[column]][group_index], data[[column]][subgroup_indicies])
+  data
+}
+
+#legacy unabstracted code
+#diffAcc_byRace$`Race and Ethnicity`[2:3] <- paste(diffAcc_byRace$`Race and Ethnicity`[1],
+                                                  #diffAcc_byRace$`Race and Ethnicity`[2:3])
+
+diffAcc_byRace <- append_group(diffAcc_byRace, "Race and Ethnicity", 1, 2:3)
+diffAcc_byRace <- append_group(diffAcc_byRace, "Race and Ethnicity", 4, 5:6)
+diffAcc_byRace <- append_group(diffAcc_byRace, "Race and Ethnicity", 7, 8:9)
+diffAcc_byRace <- append_group(diffAcc_byRace, "Race and Ethnicity", 10, 11:12)
+
+diffAcc_byEdu <- read_lachs(diffAcc_path, "B52:H56")
+diffAcc_byPov <- read_lachs(diffAcc_path, "B58:H62")
+diffAcc_byDis <- read_lachs(diffAcc_path, "B64:H66")
+diffAcc_byDisab <- read_lachs(diffAcc_path, "B68:H73")
+diffAcc_byDistr <- read_lachs(diffAcc_path, "B85:H111")
+```
+
+
