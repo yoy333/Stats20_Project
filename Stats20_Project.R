@@ -53,4 +53,18 @@ ggplot(age_data, aes(x = group, y = percent, fill = group)) +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 # 25-29 most
-  
+print(health_clean, n = 83) 
+
+#oh also an income plot
+poverty_groups <- c("0-99% FPL", "100%-199% FPL", "200%-299% FPL", "300% or above FPL")
+
+poverty_data <- health_clean[health_clean$group %in% poverty_groups, ]
+
+ggplot(poverty_data, aes(x = group, y = percent, fill = group))+
+  geom_bar(stat = "identity")+
+  labs(title = "Difficulty Accessing Healthcare by Income Level", 
+       subtitle = "LA County Health Survey 2023", 
+       x = "Federal Poverty Level", y = "Percent (%)") +
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+# seems like 100% - 199% federal poverty level struggles most, as they're just above the poverty line, so they don't receive as much support as 0-99%
