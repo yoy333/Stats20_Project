@@ -68,3 +68,22 @@ ggplot(poverty_data, aes(x = group, y = percent, fill = group))+
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 # seems like 100% - 199% federal poverty level struggles most, as they're just above the poverty line, so they don't receive as much support as 0-99%
+
+#inequalities by region too, lastly
+region_groups <- c("Antelope Valley", "San Fernando", "San Gabriel", 
+                   "Metro", "West", "South", "East", "South Bay")
+
+region_data <- health_clean[health_clean$group %in% region_groups, ]
+ggplot(region_data, aes(x = group, y = percent, fill = group)) +
+  geom_bar(stat = "identity") + 
+  labs(title = "Difficulty Accessing Healthcare by Region", 
+       subtitle = "LA County Health Survey 2023",
+       x = "Region", y = "Percent (%)") + 
+  theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+#South seems highest
+
+race_model <- lm(percent ~ group, data = race_data)
+summary(race_model)
+print(health_clean[38:46, ])
+# check out lm results, what yes/no refer to
