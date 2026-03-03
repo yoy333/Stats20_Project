@@ -33,10 +33,16 @@ diffAcc_byOrient2 <- read_lachs(diffAcc_path, "B22:H24")
 diffAcc_byAge <- read_lachs(diffAcc_path, "B26:H33")
 
 diffAcc_byRace <- read_lachs(diffAcc_path, "B35:H50")
+
+group_indicies <- c(1, 4, 7, 10)
+
+diffAcc_byRace1 <- diffAcc_byRace[group_indicies,]
+
 #raw data use colors to define subgroups. Just open xlsx file and you'll see what I mean
 #so I define this function to append the group name to the subgroup rows
 append_group <- function(data, column, group_index, subgroup_indicies){
   data[[column]][subgroup_indicies] <- paste(data[[column]][group_index], data[[column]][subgroup_indicies])
+  #data[[column]][subgroup_indicies] <- data[[column]][subgroup_indicies]
   data
 }
 
@@ -48,6 +54,8 @@ diffAcc_byRace <- append_group(diffAcc_byRace, "Race and Ethnicity", 1, 2:3)
 diffAcc_byRace <- append_group(diffAcc_byRace, "Race and Ethnicity", 4, 5:6)
 diffAcc_byRace <- append_group(diffAcc_byRace, "Race and Ethnicity", 7, 8:9)
 diffAcc_byRace <- append_group(diffAcc_byRace, "Race and Ethnicity", 10, 11:12)
+
+diffAcc_byRace2 <- diffAcc_byRace[-group_indicies, ]
 
 diffAcc_byEdu <- read_lachs(diffAcc_path, "B52:H56")
 diffAcc_byPov <- read_lachs(diffAcc_path, "B58:H62")
