@@ -6,6 +6,9 @@ output: pdf_document
 ---
 
 ```{r}
+library(ggplot2)
+library(ggthemes)
+
 diffAcc_byRace$`Race and Ethnicity`
 ggplot(diffAcc_byRace1, aes(x = `Race and Ethnicity`, y = Percent, fill = `Race and Ethnicity`)) +
   geom_bar(stat = "identity") +
@@ -36,6 +39,6 @@ ggplot(diffAcc_byDistr, aes(x = `Health District`, y = Percent, fill = `Health D
   labs(title = "Difficulty Accessing Healthcare by Region", 
        subtitle = "LA County Health Survey 2023",
        x = "Region", y = "Percent (%)") + 
-  theme_minimal() + 
+  theme_wsj() + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
