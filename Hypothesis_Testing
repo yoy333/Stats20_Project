@@ -1,2 +1,26 @@
-## Will add hypothesis testing upon the release of data.
-# Check for disparities between races, federal poverty level, and health district
+# Packages
+library(haven)
+library(tidyverse)
+# Loading the data set
+adultHealth <- read_sas("adult2018_od.sas7bdat")
+
+# Making data for a table
+table_data <- adultHealth |>
+  filter(FPL_FIN %in% c(1, 2, 3, 4), SMOSTSALT %in% c(1, 4)) |>
+  mutate(
+    under_poverty = ifelse(FPL_FIN == 1, "Under", "Over"),
+    is_smoker = ifelse(SMOSTSALT == 1, "Smoker", "Non-Smoker")
+  )
+
+#Making the Table
+contingency_table <- table(table_data$under_poverty, table_data$is_smoker)
+
+# Running a proportion test
+smoker_counts <- contingency_table[, "Smoker"]
+group_totals <- rowSums(contingency_table)
+prop.test(x = smoker_counts, n = group_totals)
+
+## Analyzing the Results
+# We see a statistically significant difference with smokers more likely to be under the poverty line. 18.511% of people 
+under the poverty line versus over 13.491%. This indicates that people under the poverty line will face more adverse health
+outcomes due to the negative health implications that come with smoking.
