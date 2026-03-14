@@ -20,7 +20,8 @@ smoker_counts <- contingency_table[, "Smoker"]
 group_totals <- rowSums(contingency_table)
 prop.test(x = smoker_counts, n = group_totals)
 
+t.test(FPL_FIN ~ is_smoker, data = table_data)
 ## Analyzing the Results
 # We see a statistically significant difference with smokers more likely to be under the poverty line. 18.511% of people 
-under the poverty line versus over 13.491%. This indicates that people under the poverty line will face more adverse health
-outcomes due to the negative health implications that come with smoking.
+#under the poverty line versus over 13.491%. This indicates that people under the poverty line will face more adverse health
+#outcomes due to the negative health implications that come with smoking.
